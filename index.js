@@ -24,7 +24,21 @@ console.log("Reading file..."); */
 
 
 const server = http.createServer((req,res)=>{
-   res.end("Hello from the server");
+   const pathName = req.url;
+
+   if(pathName === '/product'){
+      res.end('Product page');
+   }else if(pathName === '/cart'){
+      res.end('Cart page');
+   }else if(pathName === '/'){
+      res.end('Home Page')
+   }else{
+      res.writeHead('404',{
+         "Content-type":"text/html",
+         "my-own-header":"hello-world"
+      });
+      res.end('<h1>page not found!</h1>');
+   }
 });
 
 server.listen('3000');
