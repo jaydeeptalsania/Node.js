@@ -22,6 +22,24 @@ console.log('File has been created'); */
 });
 console.log("Reading file..."); */
 
+const replaceTemplate = (temp , product)=>{
+   let output = temp.replaceAll('{%PRODUCTNAME%}',product.productName);
+   output = output.replaceAll('{%IMAGE%}',product.image);
+   output = output.replaceAll('{%PRICE%}',product.price);
+   output = output.replaceAll('{%FROM%}',product.from);
+   output = output.replaceAll('{%NUTRIENTS%}',product.nutrients);
+   output = output.replaceAll('{%DESCRIPTION%}',product.description);
+   output = output.replaceAll('{%ID%}',product.id);
+   output = output.replaceAll('{%QUANTITY%}',product.quantity);
+   if(!product.organic) output = output.replaceAll('{%NOT_ORGANIC%}','not-organic');
+   return output;
+}
+
+const tempOverview = fs.readFileSync(`${__dirname}/starter/templates/template-overview.html`,'utf-8');
+const tempCard = fs.readFileSync(`${__dirname}/starter/templates/template-card.html`,'utf-8');
+const tempProduct = fs.readFileSync(`${__dirname}/starter/templates/template-product.html`,'utf-8');
+
+
 const data = fs.readFileSync(`${__dirname}/starter/dev-data/data.json`,'utf-8');
 const dataObj = JSON.parse(data);  // convert json into javascript object
 
@@ -31,13 +49,21 @@ const server = http.createServer((req,res)=>{
 
    if(pathName === '/product'){
       res.end('Product page');
+
    }else if(pathName === '/cart'){
       res.end('Cart page');
-   }else if(pathName === '/'){
-      res.end('Home Page')
+
+   }else if(pathName === '/' || pathName === '/overview'){
+      const cardsHtml = dataObj.map(el => replaceTemplate(tempCard , el)).join('');  //join() is used to convert array to string
+      //console.log(cardsHtml);
+      const output = tempOverview.replace('{%PRODUCT_CARDS%}',cardsHtml);
+      res.writeHead(200,{"Content-type":"text/html"});
+      res.end(output);
+
    }else if(pathName === '/api'){
      res.writeHead(200,{"Content-type":"application/json"});
-     res.end(data);      
+     res.end(data);   
+
    }else{
       res.writeHead('404',{
          "Content-type":"text/html",
