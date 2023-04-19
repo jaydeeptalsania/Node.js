@@ -32,6 +32,15 @@ const server = http.createServer((req,res)=>{
       res.end('Cart page');
    }else if(pathName === '/'){
       res.end('Home Page')
+   }else if(pathName === '/api'){
+     fs.readFile(`${__dirname}/starter/dev-data/data.json`,'utf-8',(err,data)=>{
+         // console.log(data);
+         const proData = JSON.parse(data);  // convert json into javascript object
+         //console.log(proData);
+         res.writeHead(200,{"Content-type":"application/json"});
+         res.end(data);
+      });
+      
    }else{
       res.writeHead('404',{
          "Content-type":"text/html",
