@@ -42,7 +42,7 @@ const superagent = require('superagent');
    });
  }
 
-  readFilePromise(`${__dirname}/dog.txt`).then((data)=>{
+ /* readFilePromise(`${__dirname}/dog.txt`).then((data)=>{
     return superagent.get(`https://dog.ceo/api/breed/${data}/images/random`)
   })
   .then(res=>{
@@ -53,4 +53,16 @@ const superagent = require('superagent');
   })
   .catch(err=>{
         console.log(err.message);
-  })
+  }) */
+
+  const getDogImg = async ()=>{
+    try{
+        const data = await readFilePromise(`${__dirname}/dog.txt`);
+        const res = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+        await writeFilePromise(`dog-img.txt`,res.body.message);
+        console.log('Hey , random dog image saved');
+    } catch(err){
+      console.log(err);
+    }
+  }
+  getDogImg();
