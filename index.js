@@ -63,6 +63,20 @@ const superagent = require('superagent');
         console.log('Hey , random dog image saved');
     } catch(err){
       console.log(err);
+      throw err;
     }
+    return 'two'
   }
+  /*console.log("one");
   getDogImg();
+  console.log("three");*/
+
+(async(err ,data)=>{
+ try{
+    console.log("one");
+    const x = await getDogImg();
+    console.log("three");
+ }catch{
+    console.log(err);
+ }
+})()
