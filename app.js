@@ -25,6 +25,27 @@ app.get('/api/v1/tours',(req,res)=>{
    })
 });
 
+app.get('/api/v1/tours/:id',(req,res)=>{    // to send multiple parameters :- '/api/v1/tours/:id/:x/:y?'
+  //console.log(req.params);
+
+   const id = req.params.id * 1 ; // convert string value to number
+   const tour = tours.find(el => el.id === id); // find match values from array and returns new array of all matched values
+  
+    if(!tour){
+      return res.status(404).json({
+       status:'fail',
+       message:"Invalid Id"
+      });
+    }
+
+    res.status(200).json({
+      status:'success',
+      data:{
+        tour:tour
+      }
+    })
+});
+
 app.post('/api/v1/tours',(req,res)=>{
     //console.log(req.body);
     const newId = tours[tours.length - 1].id + 1;
