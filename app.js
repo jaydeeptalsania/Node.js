@@ -1,9 +1,14 @@
 const fs = require('fs');
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
+
+// =========== Middelwares ============================
 
 app.use(express.json());  // added middleware for post data (req.body)
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
+
+app.use(morgan('dev'));  // give info about api's in console. like method , url , status code ...etc
 
 app.use((req,res,next)=>{   // middleware-1
   console.log("Hello from custom middleware 👏");
@@ -14,6 +19,8 @@ app.use((req,res,next)=>{  // middleware-2
    req.requestTime = new Date().toISOString();    // modifying req object in middleware
    next();
 });
+
+// =========== Route handlers ============================
 
 const getTours = (req,res)=>{
   console.log(req.requestTime);      // using modified req object from middleware
@@ -96,6 +103,8 @@ const deleteTour = (req,res)=>{
 
 }
 
+// =========== Routes ============================
+
 // app.get('/api/v1/tours', getTours);
 // app.get('/api/v1/tours/:id',getTour);
 // app.post('/api/v1/tours',createTour);
@@ -104,6 +113,8 @@ const deleteTour = (req,res)=>{
 
 app.route('/api/v1/tours').get(getTours).post(createTour);
 app.route('/api/v1/tours/:id').patch(updateTour).delete(deleteTour).get(getTour);
+
+// =========== Start server ============================
 
 const port = 3000;
 app.listen(port,()=>{
