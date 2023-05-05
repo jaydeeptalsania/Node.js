@@ -5,9 +5,20 @@ const app = express();
 app.use(express.json());  // added middleware for post data (req.body)
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
+app.use((req,res,next)=>{   // middleware-1
+  console.log("Hello from custom middleware 👏");
+  next();                
+});
+
+app.use((req,res,next)=>{  // middleware-2
+   req.requestTime = new Date().toISOString();    // modifying req object in middleware
+   next();
+});
 
 const getTours = (req,res)=>{
+  console.log(req.requestTime);      // using modified req object from middleware
    res.status(200).json({
+     fetchAt:req.requestTime,
      status:'success',
      results:tours.length,
      data:{
@@ -92,12 +103,6 @@ const deleteTour = (req,res)=>{
 // app.delete('/api/v1/tours/:id',deleteTour);
 
 app.route('/api/v1/tours').get(getTours).post(createTour);
-
-app.use((req,res,next)=>{  // This will not run for '/api/v1/tours' route , because it comes after that & response was eneded in above route
-  console.log("Hello from custom middleware 👏");
-  next();                
-});
-
 app.route('/api/v1/tours/:id').patch(updateTour).delete(deleteTour).get(getTour);
 
 const port = 3000;
