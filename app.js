@@ -140,17 +140,17 @@ const getUser = (req,res)=>{
 
 // =========== Routes ============================
 
-// app.get('/api/v1/tours', getTours);
-// app.get('/api/v1/tours/:id',getTour);
-// app.post('/api/v1/tours',createTour);
-// app.patch('/api/v1/tours/:id',updateTour);
-// app.delete('/api/v1/tours/:id',deleteTour);
+const tourRouter = express.Router();
+const userRouter = express.Router();
 
-app.route('/api/v1/tours').get(getTours).post(createTour);
-app.route('/api/v1/tours/:id').patch(updateTour).delete(deleteTour).get(getTour);
+tourRouter.route('/').get(getTours).post(createTour);
+tourRouter.route('/:id').patch(updateTour).delete(deleteTour).get(getTour);
 
-app.route('/api/v1/users').get(getAllUsers).post(creatUser);
-app.route('/api/v1/users/:id').patch(updateUser).delete(deleteUser).get(getUser);
+userRouter.route('/').get(getAllUsers).post(creatUser);
+userRouter.route('/:id').patch(updateUser).delete(deleteUser).get(getUser);
+
+app.use('/api/v1/tours',tourRouter);
+app.use('/api/v1/users',userRouter);
 
 // =========== Start server ============================
 
