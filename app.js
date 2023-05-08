@@ -100,8 +100,43 @@ const deleteTour = (req,res)=>{
     status:'success',
     data:null
   });
-
 }
+
+const getAllUsers = (req,res)=>{
+  res.status(500).json({
+    status:'error',
+    message:'Routes are not ready!'
+  })
+}
+
+const creatUser = (req,res)=>{
+  res.status(500).json({
+    status:'error',
+    message:'Routes are not ready!'
+  })
+}
+
+const updateUser = (req,res)=>{
+  res.status(500).json({
+    status:'error',
+    message:'Routes are not ready!'
+  })
+}
+
+const deleteUser = (req,res)=>{
+  res.status(500).json({
+    status:'error',
+    message:'Routes are not ready!'
+  })
+}
+
+const getUser = (req,res)=>{
+  res.status(500).json({
+    status:'error',
+    message:'Routes are not ready!'
+  })
+}
+
 
 // =========== Routes ============================
 
@@ -113,6 +148,9 @@ const deleteTour = (req,res)=>{
 
 app.route('/api/v1/tours').get(getTours).post(createTour);
 app.route('/api/v1/tours/:id').patch(updateTour).delete(deleteTour).get(getTour);
+
+app.route('/api/v1/users').get(getAllUsers).post(creatUser);
+app.route('/api/v1/users/:id').patch(updateUser).delete(deleteUser).get(getUser);
 
 // =========== Start server ============================
 
