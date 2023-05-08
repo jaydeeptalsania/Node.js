@@ -1,6 +1,18 @@
 const fs = require('fs');
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`));
 
+
+ exports.checkId = (req,res,next,val)=>{
+  console.log(`Tour id iss:- ${val}`);
+    if(val * 1 > tours.length){
+      return res.status(404).json({
+        status:'fail',
+        message:'Invalid Id'
+      });
+  }
+  next();
+ }
+
   exports.getTours = (req,res)=>{
     console.log(req.requestTime);      // using modified req object from middleware
      res.status(200).json({
@@ -18,14 +30,7 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-si
   
      const id = req.params.id * 1 ; // convert string value to number
      const tour = tours.find(el => el.id === id); // find match values from array and returns new array of all matched values
-    
-      if(!tour){
-        return res.status(404).json({
-         status:'fail',
-         message:"Invalid Id"
-        });
-      }
-  
+   
       res.status(200).json({
         status:'success',
         data:{
@@ -50,14 +55,7 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-si
       });
   }
   
-  exports.updateTour = (req,res)=>{
-    if(req.params.id * 1 > tours.length){
-       return res.status(404).json({
-         status:'fail',
-         message:'Invalid Id'
-       });
-    }
-  
+  exports.updateTour = (req,res)=>{  
     res.status(200).json({
       status:'success',
       data:{
@@ -68,13 +66,6 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-si
   }
   
   exports.deleteTour = (req,res)=>{
-    if(req.params.id * 1 > tours.length){
-       return res.status(404).json({
-         status:'fail',
-         message:'Invalid Id'
-       });
-    }
-  
     res.status(204).json({
       status:'success',
       data:null
