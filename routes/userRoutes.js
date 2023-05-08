@@ -1,42 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const userController = require('./../controllers/userController');
 
-const getAllUsers = (req,res)=>{
-    res.status(500).json({
-      status:'error',
-      message:'Routes are not ready!'
-    })
-  }
-  
-  const creatUser = (req,res)=>{
-    res.status(500).json({
-      status:'error',
-      message:'Routes are not ready!'
-    })
-  }
-  
-  const updateUser = (req,res)=>{
-    res.status(500).json({
-      status:'error',
-      message:'Routes are not ready!'
-    })
-  }
-  
-  const deleteUser = (req,res)=>{
-    res.status(500).json({
-      status:'error',
-      message:'Routes are not ready!'
-    })
-  }
-  
-  const getUser = (req,res)=>{
-    res.status(500).json({
-      status:'error',
-      message:'Routes are not ready!'
-    })
-  }
 
-router.route('/').get(getAllUsers).post(creatUser);
-router.route('/:id').patch(updateUser).delete(deleteUser).get(getUser);
+router.route('/').get(userController.getAllUsers).post(userController.creatUser);
+router.route('/:id').patch(userController.updateUser).delete(userController.deleteUser).get(userController.getUser);
 
 module.exports = router;
