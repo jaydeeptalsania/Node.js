@@ -28,9 +28,5 @@ app.use((req,res,next)=>{  // middleware-2
 app.use('/api/v1/tours',tourRouter);
 app.use('/api/v1/users',userRouter);
 
-// =========== Start server ============================
+module.exports = app;
 
-const port = 3000;
-app.listen(port,()=>{
-    console.log(`App is running on ${port} port`);
-})
