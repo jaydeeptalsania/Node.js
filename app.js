@@ -9,6 +9,7 @@ const userRouter = require('./routes/userRoutes');
 // =========== Middelwares ============================
 
 app.use(express.json());  // added middleware for post data (req.body)
+app.use(express.static(`${__dirname}/public`)); // server static files , in URL type localhost:3000/overview.html or localhost:3000/img/pin.png
 
 
 app.use(morgan('dev'));  // give info about api's in console. like method , url , status code ...etc
